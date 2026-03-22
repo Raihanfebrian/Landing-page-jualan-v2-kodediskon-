@@ -6,10 +6,10 @@ body { overflow-x: hidden; font-family: 'DM Sans', sans-serif; -webkit-font-smoo
 /* Animations */
 @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 @keyframes marquee-reverse { 0% { transform: translateX(-50%); } 100% { transform: translateX(0); } }
-@keyframes pulse-glow { 0%, 100% { box-shadow: 0 0 20px rgba(0, 168, 204, 0.3); } 50% { box-shadow: 0 0 40px rgba(0, 168, 204, 0.6); } }
+@keyframes pulse-glow { 0%, 100% { box-shadow: 0 0 20px rgba(16, 185, 129, 0.3); } 50% { box-shadow: 0 0 40px rgba(16, 185, 129, 0.6); } }
 @keyframes slide-up { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes zoom-in-out { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
-@keyframes best-deal-glow { 0% { box-shadow: 0 0 5px rgba(34, 197, 94, 0.4); } 50% { box-shadow: 0 0 20px rgba(34, 197, 94, 0.8); } 100% { box-shadow: 0 0 5px rgba(34, 197, 94, 0.4); } }
+@keyframes best-deal-glow { 0% { box-shadow: 0 0 5px rgba(16, 185, 129, 0.4); } 50% { box-shadow: 0 0 20px rgba(16, 185, 129, 0.4); } 100% { box-shadow: 0 0 5px rgba(16, 185, 129, 0.4); } }
 @keyframes text-gradient {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
@@ -28,11 +28,12 @@ body { overflow-x: hidden; font-family: 'DM Sans', sans-serif; -webkit-font-smoo
 .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
 .reveal.active { opacity: 1; transform: translateY(0); }
 
-/* Component Styles */
-.btn-primary { background: linear-gradient(135deg, #FF5733 0%, #FF7B54 100%) !important; color: #FFFFFF !important; text-decoration: none !important; border: none !important; display: inline-block; }
-.btn-primary:hover { background: linear-gradient(135deg, #E64525 0%, #FF5733 100%) !important; transform: scale(1.02); }
+/* Component Styles - TEMA TERANG */
+.btn-primary { background: linear-gradient(135deg, #10B981 0%, #059669 100%) !important; color: #FFFFFF !important; text-decoration: none !important; border: none !important; display: inline-block; }
+.btn-primary:hover { background: linear-gradient(135deg, #059669 0%, #047857 100%) !important; transform: scale(1.02); }
 
-.glass { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
+/* Glass effect untuk background putih */
+.glass { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(0, 0, 0, 0.05); }
 
 /* Layout Styles */
 .sticky-cta { 
@@ -43,14 +44,39 @@ body { overflow-x: hidden; font-family: 'DM Sans', sans-serif; -webkit-font-smoo
     pointer-events: none;
 }
 
-.marquee-container { overflow: hidden; white-space: nowrap; }
-.marquee-content { display: inline-flex; animation: marquee 25s linear infinite; }
-.marquee-content-reverse { display: inline-flex; animation: marquee-reverse 30s linear infinite; }
+.marquee-container { 
+    overflow: hidden; 
+    white-space: nowrap; 
+    position: relative;
+    width: 100%;
+}
 
-/* UBAH NOTIFIKASI JADI DI BAWAH */
+.marquee-content { 
+    display: inline-flex; 
+    animation: marquee 30s linear infinite; 
+    width: max-content; /* Penting agar lebar menyesuaikan konten */
+}
+
+.marquee-content-reverse { 
+    display: inline-flex; 
+    animation: marquee-reverse 35s linear infinite; 
+    width: max-content; /* Penting agar lebar menyesuaikan konten */
+}
+
+/* Pastikan Keyframes ada dan benar */
+@keyframes marquee { 
+    0% { transform: translateX(0); } 
+    100% { transform: translateX(-50%); } 
+}
+@keyframes marquee-reverse { 
+    0% { transform: translateX(-50%); } 
+    100% { transform: translateX(0); } 
+}
+
+/* Sales Notification */
 .sales-notification { 
     position: fixed; 
-    bottom:20px; /* DULUNYA top: 20px */
+    bottom: 20px; 
     left: 20px; 
     z-index: 999; 
     max-width: 320px; 
@@ -62,7 +88,7 @@ body { overflow-x: hidden; font-family: 'DM Sans', sans-serif; -webkit-font-smoo
 
 .timeline-step { opacity: 0.2; transform: translateY(20px); transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
 .timeline-step.active { opacity: 1; transform: translateY(0); }
-.timeline-step.active .timeline-circle { background: #00A8CC; border-color: #00A8CC; box-shadow: 0 0 0 4px rgba(0, 168, 204, 0.2); transform: scale(1.1); }
+.timeline-step.active .timeline-circle { background: #10B981; border-color: #10B981; box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.2); transform: scale(1.1); color: white; }
 
 /* Responsive Adjustments */
 @media (max-width: 768px) { 
@@ -81,6 +107,5 @@ body { overflow-x: hidden; font-family: 'DM Sans', sans-serif; -webkit-font-smoo
 .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; scroll-padding: 0 10%; }
 
 /* Testimonial Slider */
-.testimonial-card { transform: scale(0.85); opacity: 0.5; filter: blur(3px) grayscale(50%); transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
-.testimonial-card.is-active { transform: scale(1); opacity: 1; filter: blur(0) grayscale(0); z-index: 10; }
-.testimonial-card.is-active > div { border: 2px solid rgba(255, 255, 255, 0.2); box-shadow: 0 0 40px rgba(0, 168, 204, 0.2); }
+.testimonial-card { transform: scale(0.9); opacity: 0.6; filter: grayscale(30%); transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); border: 1px solid transparent; }
+.testimonial-card.is-active { transform: scale(1); opacity: 1; filter: grayscale(0); z-index: 10; border-color: rgba(16, 185, 129, 0.3); box-shadow: 0 0 20px rgba(16, 185, 129, 0.1); }

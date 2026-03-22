@@ -1,152 +1,58 @@
 // ==========================================
-// 1. COUNTDOWN TIMER (REAL SCARCITY 20 MENIT)
+// 1. COUNTDOWN TIMER (DAILY UNTIL MIDNIGHT)
 // ==========================================
-const timerKey = 'promo_end_time_v4';
 const timerContainer = document.getElementById('timer-container');
 const mainPriceDisplay = document.getElementById('main-price-display');
 const normalPriceText = document.getElementById('normal-price-text');
-const discountText = document.getElementById('discount-text');
 const ctaBtn = document.getElementById('cta-btn');
+const hoursEl = document.getElementById('hours');
 const minutesEl = document.getElementById('minutes');
 const secondsEl = document.getElementById('seconds');
 
-// ELEMEN BARU UNTUK SINKRON
+// ELEMEN SYNC (Sticky CTA & Pricing)
 const promoBadge = document.getElementById('promo-badge');
 const bestDealBadge = document.getElementById('best-deal-badge');
 const stickyPrice = document.getElementById('sticky-price');
 const stickyDiscount = document.getElementById('sticky-discount');
 const stickyBtn = document.getElementById('sticky-btn');
+const stickyLabel = document.getElementById('sticky-label');
+const couponInfo = document.getElementById('coupon-info');
+const discountText = document.getElementById('discount-text');
 
-// SETTING LINK
-const LINK_PROMO = 'https://raihan-struggle.myscalev.com/checkout-page'; 
-const LINK_NORMAL = 'https://raihan-struggle.myscalev.com/checkout-page1'; 
-// LINK WA DENGAN PESAN OTOMATIS
-const MSG_WA = "Halo%20Admin%2C%20saya%20baru%20saja%20melihat%20penawaran%20Page%20Engine%20Pro%20dan%20waktunya%20habis.%20Apakah%20masih%20ada%20kesempatan%20untuk%20mendapatkan%20harga%20diskon%20Rp%20179.000%3F%20Terima%20kasih.";
-const LINK_ADMIN = `https://wa.me/6285117075654?text=${MSG_WA}`;
-
-let promoEndTime = localStorage.getItem(timerKey);
-
-if (!promoEndTime) {
-    promoEndTime = new Date().getTime() + (20 * 60 * 1000); 
-    localStorage.setItem(timerKey, promoEndTime);
-} else {
-    promoEndTime = parseInt(promoEndTime);
-}
+// LINKS
+const LINK_CHECKOUT = 'https://raihanstruggle.id/checkout-page'; 
 
 function updateTimer() {
-    const now = new Date().getTime();
-    const distance = promoEndTime - now;
+    const now = new Date();
+    const midnight = new Date();
+    midnight.setHours(24, 0, 0, 0); // Target selalu jam 00:00 hari ini/esok
+    
+    const distance = midnight - now;
 
-    if (distance < 0) {
-        // ==========================================
-        // KONDISI: WAKTU HABIS (VISUAL "PENYESELAN")
-        // ==========================================
-        
-        // 1. Timer Box
-        if (timerContainer) {
-            timerContainer.innerHTML = `
-                <div class="bg-ocean-800 border border-ocean-700 rounded-xl p-4 text-center">
-                    <p class="text-coral-400 text-sm font-bold mb-2">⚠️ Waktu Promo Sudah Habis!</p>
-                    <p class="text-ocean-200 text-xs">Harga kembali normal Rp 599.000.</p>
-                </div>
-            `;
-        }
-
-        // 2. Pricing Section
-        // a. Sembunyiin tulisan coret lama
-        if (normalPriceText) normalPriceText.style.display = 'none';
-        
-        // b. Harga 179rb jadi CORET & GELAP
-        if (mainPriceDisplay) {
-            mainPriceDisplay.classList.add('line-through', 'text-ocean-600', 'opacity-50');
-            mainPriceDisplay.classList.remove('text-white');
-        }
-
-        // c. Munculin Harga Baru (599rb) & Animasi
-        const expiredDisplay = document.getElementById('expired-price-display');
-        if (expiredDisplay) {
-            expiredDisplay.classList.remove('hidden');
-        }
-
-        // d. Ganti teks diskon
-        if (discountText) {
-             discountText.textContent = "Promo Telah Berakhir";
-             discountText.classList.remove('text-green-400');
-             discountText.classList.add('text-coral-400');
-        }
-
-        // e. Badge "10 Orang" -> Ganti Teks
-        if (promoBadge) {
-            promoBadge.innerHTML = `
-                <span class="relative flex h-3 w-3">
-                    <span class="relative inline-flex rounded-full h-3 w-3 bg-yellow-500"></span>
-                </span>
-                <span class="text-yellow-300 text-xs md:text-sm font-bold">Hubungi Admin untuk cek ketersediaan promo terakhir!</span>
-            `;
-            promoBadge.classList.remove('bg-red-900/30', 'border-red-500/40', 'animate-pulse');
-            promoBadge.classList.add('bg-yellow-900/30', 'border-yellow-500/40');
-        }
-
-        // f. Badge "BEST DEAL" -> "PROMO END"
-        if (bestDealBadge) {
-            bestDealBadge.textContent = "PROMO END";
-            bestDealBadge.classList.remove('bg-coral-500');
-            bestDealBadge.classList.add('bg-gray-600');
-        }
-
-        // g. Tombol CTA Utama -> Chat Admin
-        if (ctaBtn) {
-            ctaBtn.textContent = "MASIH PENGEN PROMONYA? CHAT ADMIN SEKARANG";
-            ctaBtn.href = LINK_ADMIN;
-            ctaBtn.classList.remove('animate-pulse-glow');
-            ctaBtn.classList.add('bg-ocean-700');
-        }
-
-        // 3. Sticky CTA
-        // a. Label Atas -> "Harga kembali normal" (hapus coret)
-        const stickyLabel = document.getElementById('sticky-label');
-        if (stickyLabel) {
-            stickyLabel.textContent = "Harga kembali normal";
-            stickyLabel.classList.remove('line-through', 'text-ocean-400');
-            stickyLabel.classList.add('text-ocean-300', 'font-medium');
-        }
-
-        // b. Harga Sticky -> 599rb & hilangin hemat
-        if (stickyPrice) {
-            stickyPrice.innerHTML = "Rp 599.000";
-            stickyPrice.classList.remove('text-white');
-            stickyPrice.classList.add('text-coral-400');
-        }
-
-        // c. Tombol Sticky -> Chat Admin
-        if (stickyBtn) {
-            stickyBtn.textContent = "CHAT ADMIN";
-            stickyBtn.href = LINK_ADMIN;
-        }
-
-        clearInterval(timerInterval);
-        return;
-    }
-
-    // ==========================================
-    // KONDISI: MASIH ADA WAKTU
-    // ==========================================
+    const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
     const s = Math.floor((distance % (1000 * 60)) / 1000);
 
+    if(hoursEl) hoursEl.textContent = h < 10 ? '0' + h : h;
     if(minutesEl) minutesEl.textContent = m < 10 ? '0' + m : m;
     if(secondsEl) secondsEl.textContent = s < 10 ? '0' + s : s;
     
-    // Reset link jika perlu
-    if (ctaBtn && ctaBtn.href !== LINK_PROMO) ctaBtn.href = LINK_PROMO;
-    if (ctaBtn) ctaBtn.textContent = "AMBIL DISKON SEKARANG";
+    // ==========================================
+    // PERBAIKAN DI SINI
+    // ==========================================
+    
+    // 1. Tombol CTA Utama: Pastikan link tetap ke Checkout
+    if (ctaBtn && ctaBtn.href !== LINK_CHECKOUT) ctaBtn.href = LINK_CHECKOUT;
+    
+    // 2. Teks Tombol: DIHAPUS override-nya. Biarkan HTML yang mengatur (AMBIL PROMO SEKARANG!).
+    // if (ctaBtn) ctaBtn.textContent = "AMBIL DISKON SEKARANG"; <-- BARIS INI DIHAPUS
+    
+    // 3. Sticky CTA: DIHAPUS override link-nya. Biarkan HTML mengarah ke #pricing.
+    // if (stickyBtn) stickyBtn.href = LINK_CHECKOUT; <-- BARIS INI DIHAPUS
 }
 
 const timerInterval = setInterval(updateTimer, 1000);
 updateTimer();
-
-// ... (Sisa kode JS: Sticky Observer, Notif, Timeline, dll samain kaya sebelumnya) ...
-// Jangan lupa pastikan bagian Sales Notification punya z-index: 999 di CSS
 
 
 // ==========================================
@@ -154,7 +60,8 @@ updateTimer();
 // ==========================================
 const stickyCta = document.getElementById('stickyCta');
 const pricingSection = document.getElementById('pricing');
-const agitateSection = document.getElementById('agitate-section');
+// Target section adalah Tutorial
+const triggerSection = document.getElementById('tutorial-section'); 
 
 function showSticky() {
     stickyCta.style.transform = "translateY(0)";
@@ -168,23 +75,51 @@ function hideSticky() {
     stickyCta.style.pointerEvents = "none";
 }
 
-const agitateObserver = new IntersectionObserver((entries) => {
+// Logika Section Tutorial: Muncul saat masuk atau sudah melewati section ini
+const problemObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
-        if (!entry.isIntersecting && entry.boundingClientRect.bottom < 0) showSticky();
+        if (entry.isIntersecting) {
+            showSticky();
+        } else {
+            // Jika posisi section di atas viewport (sudah dilewati saat scroll ke bawah)
+            if (entry.boundingClientRect.top < 0) {
+                showSticky();
+            } 
+            // Jika posisi section di bawah viewport (kembali ke atas halaman, sebelum tutorial)
+            else if (entry.boundingClientRect.top > window.innerHeight) {
+                hideSticky();
+            }
+        }
     });
-}, { threshold: 0 }); 
-if(agitateSection) agitateObserver.observe(agitateSection);
-
-const pricingObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => { if (entry.isIntersecting) hideSticky(); });
 }, { threshold: 0.1 });
+
+if(triggerSection) problemObserver.observe(triggerSection);
+
+// Logika Section Pricing: Hilangkan saat masuk, Munculkan kembali saat keluar (scroll ke atas)
+const pricingObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            hideSticky();
+        } else {
+            // Jika pricing tidak terlihat
+            // Cek apakah posisi pricing di bawah viewport (top > 0)
+            // Artinya user baru saja scroll ke ATAS meninggalkan pricing
+            if (entry.boundingClientRect.top > 0) {
+                // Pastikan kita sudah melewati tutorial section agar tidak muncul di paling atas
+                if (triggerSection && triggerSection.getBoundingClientRect().top < 0) {
+                    showSticky();
+                }
+            }
+        }
+    });
+}, { threshold: 0.1 });
+
 if(pricingSection) pricingObserver.observe(pricingSection);
 
 
 // ==========================================
-// 3. SALES NOTIFICATION (BUNDER BAWAH, DELAY 10 DETIK)
+// 3. SALES NOTIFICATION
 // ==========================================
-// Sales Notification Library
 const buyers = [
     { name: 'Eka Gustiawan', initials: 'EG', time: '5 menit lalu' }, 
     { name: 'Andi Saputra', initials: 'AS', time: '2 menit lalu' }, 
@@ -193,7 +128,6 @@ const buyers = [
     { name: 'Deni Kurniawan', initials: 'DK', time: '1 menit lalu' },
     { name: 'Sarah Amelia', initials: 'SA', time: '7 menit lalu' },
     { name: 'Fajar Rahman', initials: 'FR', time: '10 menit lalu' },
-    // Tambahan 5 nama baru:
     { name: 'Dimas Pratama', initials: 'DP', time: 'Baru saja' },
     { name: 'Siti Nurhaliza', initials: 'SN', time: '4 menit lalu' },
     { name: 'Reza Aditya', initials: 'RA', time: '12 menit lalu' },
@@ -208,7 +142,6 @@ function showNotif() {
     document.getElementById('salesNotification').classList.add('show');
     setTimeout(() => document.getElementById('salesNotification').classList.remove('show'), 4000);
 }
-// DELAY JADI 10 DETIK (10000ms)
 setTimeout(showNotif, 20000); 
 setInterval(showNotif, 45000);
 
@@ -258,12 +191,11 @@ cards.forEach(card => observer.observe(card));
 
 function updateDots(activeIndex) {
     dots.forEach((dot, i) => {
-        dot.classList.remove('bg-pink-500', 'bg-cyan-400', 'bg-yellow-400', 'w-4');
-        dot.classList.add('bg-ocean-600');
+        dot.classList.remove('bg-slate-300', 'bg-emerald-500', 'w-4');
+        dot.classList.add('bg-slate-300');
         if (i === activeIndex) {
-            dot.classList.remove('bg-ocean-600'); dot.classList.add('w-4');
-            const colors = ['bg-pink-500', 'bg-cyan-400', 'bg-yellow-400'];
-            dot.classList.add(colors[i % 3]);
+            dot.classList.remove('bg-slate-300'); 
+            dot.classList.add('w-4', 'bg-emerald-500');
         }
     });
 }
@@ -328,20 +260,18 @@ function closeModal() {
 document.getElementById('previewModal')?.addEventListener('click', function(e) { if (e.target === this) closeModal(); });
 
 
-// LIVE VIEWERS COUNTER (RANDOM JUMPS - LEBIH NATURAL)
+// LIVE VIEWERS COUNTER
 const liveViewersCount = document.getElementById('liveViewersCount');
 let currentViewers = 12;
 
 setInterval(() => {
-    // Loncatnya cuma 1 atau 2 orang aja biar realistis
     const jumpSize = Math.floor(Math.random() * 2) + 1; 
     const direction = Math.random() > 0.5 ? 1 : -1;
     const change = jumpSize * direction;
     currentViewers += change;
     
-    // Batas bawah 8 orang, batas atas 24 orang
     if (currentViewers < 8) currentViewers = 8;
     if (currentViewers > 24) currentViewers = 24;
     
     liveViewersCount.textContent = `${currentViewers} Orang sedang melihat penawaran ini`;
-}, 15000); // Berubah tiap 15 detik
+}, 15000);
