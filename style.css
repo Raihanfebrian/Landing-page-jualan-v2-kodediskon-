@@ -109,3 +109,47 @@ body { overflow-x: hidden; font-family: 'DM Sans', sans-serif; -webkit-font-smoo
 /* Testimonial Slider */
 .testimonial-card { transform: scale(0.9); opacity: 0.6; filter: grayscale(30%); transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); border: 1px solid transparent; }
 .testimonial-card.is-active { transform: scale(1); opacity: 1; filter: grayscale(0); z-index: 10; border-color: rgba(16, 185, 129, 0.3); box-shadow: 0 0 20px rgba(16, 185, 129, 0.1); }
+
+/* ========================================== */
+/* TOMBOL SHINE ANIMATION (KILAUAN) */
+/* ========================================== */
+.btn-shine {
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.btn-shine::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -75%; /* Mulai dari luar layar kiri */
+    z-index: 2;
+    display: block;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(to right, transparent, rgba(255,255,255,0.5) 50%, transparent 100%);
+    transform: skewX(-25deg);
+    animation: btn-shine-effect 3s infinite; /* Loop terus menerus */
+}
+
+@keyframes btn-shine-effect {
+    0% { left: -75%; opacity: 0; }
+    20% { left: 125%; opacity: 1; }
+    100% { left: 125%; opacity: 0; }
+}
+
+/* ========================================== */
+/* KHUSUS HERO HEADLINE: POPPINS EXTRA BOLD */
+/* ========================================== */
+.font-hero-headline {
+    font-family: 'Poppins', sans-serif !important;
+    font-weight: 700 !important; /* ExtraBold, lebih solid dari Bold biasa */
+    letter-spacing: -0.03em;     /* Sedikit rapat biar kelihatan gemuk */
+    text-shadow: 2px 2px 0px rgba(0,0,0,0.05); /* Bayangan tipis extra ketebalan */
+}
+
+/* Khusus Headline Hero agar extra tebal */
+h1 {
+    font-weight: 900 !important; /* Poppins Black (Paling Tebal) */
+}
