@@ -275,3 +275,43 @@ setInterval(() => {
     
     liveViewersCount.textContent = `${currentViewers} Orang sedang melihat penawaran ini`;
 }, 15000);
+
+// ==========================================
+// 9. EXIT INTENT POPUP LOGIC (FIXED)
+// ==========================================
+const exitPopup = document.getElementById('exitPopup');
+
+// Fungsi untuk MUNCULKAN Popup
+function showExitPopup() {
+    // Cek apakah user udah pernah liat popup ini di sesi ini
+    if (!sessionStorage.getItem('exitPopupShown')) {
+        if(exitPopup) {
+            exitPopup.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Disable scroll
+            sessionStorage.setItem('exitPopupShown', 'true'); // Tandai udah pernah muncul
+        }
+    }
+}
+
+// Fungsi untuk MENUTUP Popup
+function closeExitPopup() {
+    if(exitPopup) {
+        exitPopup.classList.remove('active');
+        document.body.style.overflow = 'auto'; // Enable scroll kembali
+    }
+}
+
+// Deteksi gerakan mouse keluar (ke arah tab/close browser)
+document.addEventListener('mouseleave', function(e) {
+    // Jika mouse keluar dari area window (biasanya ke arah tab/close)
+    if (e.clientY < 10) { 
+        showExitPopup();
+    }
+});
+
+// Tutup popup jika klik area gelap di luar kartu
+exitPopup?.addEventListener('click', function(e) {
+    if (e.target === this) {
+        closeExitPopup();
+    }
+});

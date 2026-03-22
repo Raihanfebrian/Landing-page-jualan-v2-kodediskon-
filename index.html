@@ -997,5 +997,42 @@
 
     <!-- JS -->
     <script src="script.js"></script>
+
+        <!-- EXIT INTENT POPUP -->
+    <div id="exitPopup" class="exit-popup-overlay">
+        <div class="exit-popup-card">
+            <!-- Tombol Close -->
+            <button onclick="closeExitPopup()" class="absolute top-4 right-4 text-slate-300 hover:text-slate-600 transition">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+
+            <!-- Icon Emosi -->
+            <div class="text-5xl mb-4">😟</div>
+
+            <!-- Headline -->
+            <h3 class="font-display text-xl md:text-2xl font-bold text-slate-900 mb-2">Beneran gamau ambil promo ini?</h3>
+            <p class="text-slate-500 text-sm mb-6">Promo spesial <strong class="text-emerald-600">Rp 189.000</strong> cuma berlaku hari ini loh. Besok bisa jadi balik normal!</p>
+
+            <!-- Benefit Reminder -->
+            <div class="bg-slate-50 rounded-xl p-4 text-left mb-6 border border-slate-100">
+                <ul class="text-sm text-slate-600 space-y-2">
+                    <li class="flex items-center gap-2"><span class="text-emerald-500">✅</span> Hemat Jutaan Rupiah & Waktu.</li>
+                    <li class="flex items-center gap-2"><span class="text-emerald-500">✅</span> Desain Profesional Tanpa Skill Coding.</li>
+                    <li class="flex items-center gap-2"><span class="text-emerald-500">✅</span> Bonus 10 Produk Digital Siap Jual.</li>
+                </ul>
+            </div>
+
+            <!-- Tombol Aksi -->
+            <a href="#pricing" onclick="closeExitPopup()" class="block w-full bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-bold py-3 rounded-xl mb-3 shadow-lg hover:shadow-xl transition hover:scale-105">
+                Ya, Saya Mau Ambil Promo!
+            </a>
+
+            <!-- Link Chat Admin -->
+            <a href="https://wa.me/6285117075654?text=Halo%20Admin,%20saya%20masih%20bingung%20soal%20promonya.%20Bisa%20dijelaskan%20lebih%20lanjut?" target="_blank" class="text-slate-400 text-xs hover:text-slate-600 underline transition">
+                Saya masih bingung, mau tanya admin dulu
+            </a>
+        </div>
+    </div>
+    
 </body>
 </html>

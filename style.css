@@ -153,3 +153,54 @@ body { overflow-x: hidden; font-family: 'DM Sans', sans-serif; -webkit-font-smoo
 h1 {
     font-weight: 900 !important; /* Poppins Black (Paling Tebal) */
 }
+
+/* ========================================== */
+/* EXIT INTENT POPUP STYLE */
+/* ========================================== */
+.exit-popup-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.7);
+    backdrop-filter: blur(4px);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.exit-popup-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.exit-popup-card {
+    background: white;
+    max-width: 420px;
+    width: 90%;
+    border-radius: 24px;
+    padding: 32px 24px;
+    text-align: center;
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    position: relative;
+    overflow: hidden;
+}
+
+.exit-popup-overlay.active .exit-popup-card {
+    transform: scale(1);
+}
+
+/* Garis dekoratif di atas popup */
+.exit-popup-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: linear-gradient(to right, #10B981, #34D399);
+}
